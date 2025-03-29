@@ -1,6 +1,4 @@
-uốn xem rồi và chọn xem
-thống kê. Khi đó hệ thống sẽ nhận yêu cầu từ quản trị viên và lấy thông tin số liệu của câc sách
-rồi gửi lại thông tin của các sách đó và đưa ra các thông số lượt đọc của sách trên hệ thống cho
+�� thống cho
 quản trị viên xem.
 Trang 14/32
 TRƯỜNG ĐẠI HỌC BÁCH KHOA - DHQG-HCM
@@ -18,4 +16,9 @@ TRƯỜNG ĐẠI HỌC BÁCH KHOA - DHQG-HCM
 Hình 6: Sequence diagram
 Trang 16/32
 TRƯỜNG ĐẠI HỌC BÁCH KHOA - DHQG-HCM
-Mô tả: Diagram này mô tả quá trình quản trị viên quản lý sách trên hệ 
+Mô tả: Diagram này mô tả quá trình quản trị viên quản lý sách trên hệ thống thông qua giao
+diện người dùng.
+1. Truy cập trang quản lý sách: Quản trị viên nhấn vào nút "manage books" để vào giao
+diện quản lý sách.
+2. Xem danh sách sách: Hệ thống hiển thị danh sách sách với các tùy chọn như thêm mới,
+chỉnh sửa

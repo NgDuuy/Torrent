@@ -1,10 +1,4 @@
- xóa tài khoản người dùng.
-– Cập nhật thông tin cá nhân và mật khẩu cho quản trị viên.
-• BookController: Quản lý sách:
-– Thêm mới, chỉnh sửa và xóa sách trong thư viện.
-• CategoryController: Quản lý thể loại sách:
-– Thêm mới, chỉnh sửa, và xóa các thể loại.
-• StatisticsController: Thống kê lượt xem sách và gửi dữ liệu cho View.
+.
 Trang 24/32
 TRƯỜNG ĐẠI HỌC BÁCH KHOA - DHQG-HCM
 2. Người dùng:
@@ -23,4 +17,12 @@ nhập vào hệ thống.
 và đổi mật khẩu.
 – Danh sách sách và chi tiết sách: Giao diện hiển thị sách có trong thư viện với các
 chi tiết như tác giả, mô tả, thể loại, năm xuất bản.
-– Tìm kiếm sách: Giao diện để tìm sách theo tên, tác gi�
+– Tìm kiếm sách: Giao diện để tìm sách theo tên, tác giả, hoặc thể loại.
+– Đọc sách trực tuyến: Giao diện cho phép người dùng đọc sách với thiết kế thân
+thiện.
+– Lịch sử đọc sách: Hiển thị danh sách các sách đã đọc trước đó của người dùng.
+Controller (C)
+• UserController:
+– Xử lý đăng ký, đăng nhập, đăng xuất, cập nhật thông tin cá nhân và đổi mật khẩu.
+• BookController:
+– Cung cấp ch�

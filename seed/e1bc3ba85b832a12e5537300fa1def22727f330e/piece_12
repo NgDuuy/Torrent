@@ -1,8 +1,4 @@
-hông tin của các sách đó và xác nhận lại với quản trị
-viên. Lúc này nếu quản trị viên xác nhận thì sẽ xóa sách ra khỏi cơ sở dữ liệu còn nếu hủy thì
-sẽ quay về trang quản lý sách.
-Trang 12/32
-TRƯỜNG ĐẠI HỌC BÁCH KHOA - DHQG-HCM
+ĐẠI HỌC BÁCH KHOA - DHQG-HCM
 Hình 3: Chỉnh sửa sách
 Mô tả: Diagram này mô tả quá trình quản trị viên chỉnh sưa thông tin sách trên hệ thống.
 Đầu tiên quản trị viên sẽ truy cập vào trang quản lý sách rồi sẽ chọn sách cần rồi khi đã chọn
@@ -15,4 +11,6 @@ Trang 13/32
 TRƯỜNG ĐẠI HỌC BÁCH KHOA - DHQG-HCM
 Hình 4: Xem thống kê
 Mô tả: Diagram này mô tả quá trình quản trị viên xem thống kê về sách trên hệ thống. Đầu
-tiên quản trị viên sẽ truy cập vào trang quản lý sách rồi sẽ chọn sách m
+tiên quản trị viên sẽ truy cập vào trang quản lý sách rồi sẽ chọn sách muốn xem rồi và chọn xem
+thống kê. Khi đó hệ thống sẽ nhận yêu cầu từ quản trị viên và lấy thông tin số liệu của câc sách
+rồi gửi lại thông tin của các sách đó và đưa ra các thông số lượt đọc của sách trên h�

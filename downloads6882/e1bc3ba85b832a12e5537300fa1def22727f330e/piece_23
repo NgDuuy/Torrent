@@ -1,15 +1,4 @@
-
-– Một sách có thể được quản lý bởi nhiều quản trị viên.
-– Một sách có thể thuộc (has) nhiều thể loại.
-– Một sách có thể có (has) một thống kê duy nhất.
-3.5.5 Thể loại (Genre):
-Lưu trữ thông tin về thể loại sách.
-• Thuộc tính:
-– Mã thể loại (genre_id): INT(10)
-– Tên thể loại (name): CHAR(100)
-• Mối liên kết: Một thể loại có thể chứa nhiều sách.
-3.5.6 Thống kê (Statistics):
-Lưu trữ dữ liệu về lượt xem và lượt thích của sách.
+�ợt thích của sách.
 • Thuộc tính:
 – Mã thống kê (statistics_id): INT(10)
 – Lượt xem (view_count): INT(10)
@@ -27,4 +16,13 @@ Usability test giúp phát hiện vấn đề trong thiết kế sản phẩm, t
 hơn về hành vi, sở thích của người sử dụng.
 4.2.1 Chuẩn bị
 a) Mục tiêu:
-• Đánh giá tính dễ sử dụng của giao diện hệ
+• Đánh giá tính dễ sử dụng của giao diện hệ thống:
+– Kiểm tra xem người dùng có thể dễ dàng thực hiện các tác vụ cơ bản như:
+∗ Đăng nhập vào hệ thống.
+∗ chọn sách muốn đọc.
+∗ Xem lại lịch sử sách đã từng đọc.
+∗ Chuyển sang chế độ người quản lý sách: Chỉnh sửa thông tin sách; chọn sách
+muốn xóa; Thêm sách.
+• Đánh giá tính hợp lý của luồng điều hướng:
+– Kiểm tra xem người dùng có thể dễ dàng di chuyển giữa các bước và tính năng của
+hệ thống mà không bị lạ

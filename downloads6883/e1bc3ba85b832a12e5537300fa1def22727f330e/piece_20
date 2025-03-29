@@ -1,13 +1,4 @@
-ontend.
-• Database (DB): Lưu trữ toàn bộ dữ liệu của hệ thống.
-2. Mối quan hệ giữa các thành phần:
-• Frontend giao tiếp với Backend thông qua API RESTful.
-• Backend truy vấn và cập nhật dữ liệu từ Database.
-• Database trả về dữ liệu cho Backend.
-3. Tương tác người dùng: Người dùng và quản trị viên tương tác với hệ thống thông qua
-giao diện.
-Trang 26/32
-TRƯỜNG ĐẠI HỌC BÁCH KHOA - DHQG-HCM
+CH KHOA - DHQG-HCM
 3.3 Presentation Strategy
 Được tích hợp bên trong phần View của cơ sở kiến trúc MVC. Nhóm chúng em hướng đến sự
 tiện lợi trong giao diện người dùng để đáp ứng các nhu cầu người dùng. Để hiện thực hóa điều
@@ -18,4 +9,9 @@ trong khi Bootstrap mang đến các thành phần giao diện linh hoạt, đ�
 tùy chỉnh.
 • Thiết kế Đáp ứng (Responsive Design): Chúng tôi đảm bảo hệ thống tương thích với đa
 dạng thiết bị mà sinh viên, cán bộ và nhân viên nhà trường sử dụng. Giao diện sẽ tự
-động điều chỉnh linh hoạt cho c
+động điều chỉnh linh hoạt cho các loại màn hình khác nhau nhờ tính năng responsive của
+Bootstrap, nhằm mang lại trải nghiệm tối ưu trên nhiều nền tảng, đặc biệt là điện thoại
+di động và máy tính bảng.
+• Tính năng Thân thiện với Người dùng: Các yếu tố trực quan như nút bấm, biểu mẫu và
+menu sẽ được thiết kế dễ sử dụng, giúp người dùng mới có thể nhanh chóng làm quen và
+thao tác với hệ thống một cách th

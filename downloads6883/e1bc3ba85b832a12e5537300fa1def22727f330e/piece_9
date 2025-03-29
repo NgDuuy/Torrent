@@ -1,7 +1,4 @@
-để quản trị viên điền các thông
-tin về sách
-3. Quản trị viên điền những thông tin cần thiết
-4. Quản trị viên tải sách lên hoặc đưa liên kết đến sách
+n kết đến sách
 5. Quản trị viên xác nhận biểu mẫu
 6. Hệ thống xác thực biểu mẫu
 7.Hệ thống thêm sách vào danh sách, thông báo cho quản trị viên
@@ -26,4 +23,8 @@ Normal flow
 1. Quản trị viên chọn nút "Chỉnh sửa"
 2. Hệ thống sẽ đưa ra biểu mẫu chứa các thông tin có sẵn về sách
 để quản trị viên thay đổi
-3. Quản trị viên thay đổi những thông tin cần thiết
+3. Quản trị viên thay đổi những thông tin cần thiết
+4. Quản trị viên xác nhận biểu mẫu
+5. Hệ thống xác thực biểu mẫu
+6. Hệ thống thay đổi thông tin của sách, thông báo cho quản trị
+viên và trở về trang danh sách

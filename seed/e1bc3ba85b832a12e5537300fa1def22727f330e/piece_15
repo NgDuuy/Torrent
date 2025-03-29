@@ -1,13 +1,4 @@
-ống lấy dữ liệu thống kê từ cơ sở dữ liệu và hiển thị cho quản trị viên.
-Trang 17/32
-TRƯỜNG ĐẠI HỌC BÁCH KHOA - DHQG-HCM
-2.4 Class Diagram
-Hình 7: Class Diagram
-Mô tả:
-Class User
-• Thuộc tính:
-– id: str - Mã định danh duy nhất của người dùng.
-– name: string - Tên người dùng.
+ Tên người dùng.
 – password: str - Mật khẩu để xác thực người dùng.
 • Quan hệ:
 – Lớp Member kế thừa từ User.
@@ -31,4 +22,12 @@ Class Admin
 – updateBook() - Cập nhật thông tin sách.
 – addBook() - Thêm sách mới vào hệ thống.
 – numOfBook(): int - Lấy số lượng sách hiện tại trong hệ thống.
-– getProfile(id: str): M
+– getProfile(id: str): Member - Lấy thông tin hồ sơ của thành viên dựa trên ID.
+• Quan hệ:
+– Quản lý cả danh sách thành viên (Member) và danh sách sách (Book).
+Class Book
+• Thuộc tính:
+– id: str - Mã định danh của sách.
+– genre: list<str> - Danh sách thể loại mà sách thuộc về.
+• Phương thức:
+– method1(Type): Type 

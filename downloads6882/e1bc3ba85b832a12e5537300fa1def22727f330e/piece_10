@@ -1,8 +1,3 @@
-
-4. Quản trị viên xác nhận biểu mẫu
-5. Hệ thống xác thực biểu mẫu
-6. Hệ thống thay đổi thông tin của sách, thông báo cho quản trị
-viên và trở về trang danh sách
 Exception flows
 2a. Nếu quản trị viên hủy biểu mẫu thì hệ thống sẽ trở về trang
 quản lý sách
@@ -29,4 +24,8 @@ Alternative flows Không
 Postconditions Hệ thống sẽ cập nhật danh sách các sách với sách vừa bị xóa
 Trang 9/32
 TRƯỜNG ĐẠI HỌC BÁCH KHOA - DHQG-HCM
-Use-c
+Use-case name Xem thống sách
+Decription Quản trị viên xem thống kê về số lượt đọc đọc của một cuốn sách
+Actors Quản trị viên
+Preconditions Quản trị viên đã đăng nhập
+Quản trị viên yêu cầu 

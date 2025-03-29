@@ -1,9 +1,4 @@
-thống thông qua giao
-diện người dùng.
-1. Truy cập trang quản lý sách: Quản trị viên nhấn vào nút "manage books" để vào giao
-diện quản lý sách.
-2. Xem danh sách sách: Hệ thống hiển thị danh sách sách với các tùy chọn như thêm mới,
-chỉnh sửa, thống kê và xóa sách.
+, thống kê và xóa sách.
 • [Thêm sách]:
 – Quản trị viên chọn "add book".
 – Hệ thống hiển thị biểu mẫu để nhập thông tin sách mới (tựa sách, tác giả, v.v.).
@@ -22,4 +17,13 @@ liệu và cập nhật danh sách sách.
 xóa.
 • [Xem thống kê sách]:
 – Quản trị viên chọn xem thống kê của một sách cụ thể.
-– Hệ th
+– Hệ thống lấy dữ liệu thống kê từ cơ sở dữ liệu và hiển thị cho quản trị viên.
+Trang 17/32
+TRƯỜNG ĐẠI HỌC BÁCH KHOA - DHQG-HCM
+2.4 Class Diagram
+Hình 7: Class Diagram
+Mô tả:
+Class User
+• Thuộc tính:
+– id: str - Mã định danh duy nhất của người dùng.
+– name: string -

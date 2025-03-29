@@ -1,15 +1,4 @@
-��ng lớn dữ liệu có thể được cất trữ nhằm phục vụ cho
-hoạt động của hệ thống.
-Trang 27/32
-TRƯỜNG ĐẠI HỌC BÁCH KHOA - DHQG-HCM
-3.5 Kiến trúc cơ sở dữ liệu
-Hình 15: Sơ đồ ERD
-3.5.1 Người dùng (User):
-Lưu trữ thông tin của các thành viên đã đăng nhập vào hệ thống.
-• Thuộc tính:
-– Mã người dùng (user_id): CHAR(10)
-– Tên người dùng (name): CHAR(100)
-• Mối liên kết: Một người dùng có thể đọc (read) nhiều sách.
+ọc (read) nhiều sách.
 3.5.2 Quản trị viên (Administrator):
 Lưu trữ thông tin của các quản trị viên của hệ thống.
 • Thuộc tính:
@@ -31,3 +20,14 @@ Lưu trữ thông tin của các sách trong hệ thống.
 – Tên file (file_location): CHAR(255)
 – Tác giả (author): CHAR(255)
 • Mối liên kết:
+– Một sách có thể được quản lý bởi nhiều quản trị viên.
+– Một sách có thể thuộc (has) nhiều thể loại.
+– Một sách có thể có (has) một thống kê duy nhất.
+3.5.5 Thể loại (Genre):
+Lưu trữ thông tin về thể loại sách.
+• Thuộc tính:
+– Mã thể loại (genre_id): INT(10)
+– Tên thể loại (name): CHAR(100)
+• Mối liên kết: Một thể loại có thể chứa nhiều sách.
+3.5.6 Thống kê (Statistics):
+Lưu trữ dữ liệu về lượt xem và l�

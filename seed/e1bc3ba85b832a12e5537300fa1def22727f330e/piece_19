@@ -1,12 +1,4 @@
-��, hoặc thể loại.
-– Đọc sách trực tuyến: Giao diện cho phép người dùng đọc sách với thiết kế thân
-thiện.
-– Lịch sử đọc sách: Hiển thị danh sách các sách đã đọc trước đó của người dùng.
-Controller (C)
-• UserController:
-– Xử lý đăng ký, đăng nhập, đăng xuất, cập nhật thông tin cá nhân và đổi mật khẩu.
-• BookController:
-– Cung cấp chức năng xem thông tin sách và tìm kiếm sách theo tiêu chí khác nhau.
+�c năng xem thông tin sách và tìm kiếm sách theo tiêu chí khác nhau.
 • ReadingHistoryController:
 – Lưu lại lịch sử đọc sách của người dùng và cung cấp danh sách lịch sử khi cần.
 Tóm tắt:
@@ -25,4 +17,13 @@ Hình 14: Component Diagram
 – Quản lý sách và thể loại.
 – Thống kê lượt xem.
 – Lịch sử đọc.
-– Cung cấp API RESTful cho giao tiếp với Fr
+– Cung cấp API RESTful cho giao tiếp với Frontend.
+• Database (DB): Lưu trữ toàn bộ dữ liệu của hệ thống.
+2. Mối quan hệ giữa các thành phần:
+• Frontend giao tiếp với Backend thông qua API RESTful.
+• Backend truy vấn và cập nhật dữ liệu từ Database.
+• Database trả về dữ liệu cho Backend.
+3. Tương tác người dùng: Người dùng và quản trị viên tương tác với hệ thống thông qua
+giao diện.
+Trang 26/32
+TRƯỜNG ĐẠI HỌC BÁ

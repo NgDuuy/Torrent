@@ -1,4 +1,4 @@
-trúc MVC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 23
+ . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 23
 3.2 Component Diagram . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 26
 3.3 Presentation Strategy . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 27
 3.4 Data Store Approach . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 27
@@ -16,4 +16,5 @@ trúc MVC . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . . 
 Trang 1/32
 TRƯỜNG ĐẠI HỌC BÁCH KHOA - DHQG-HCM
 1 Tổng quan dự án
-1.1 Giới thi�
+1.1 Giới thiệu
+Trong kỷ nguyên kỹ thuật số hi�

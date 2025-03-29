@@ -1,4 +1,4 @@
-iệc cập nhật và quản lý các cuốn sách trong thư viện. Họ đảm bảo rằng
+�� đảm bảo rằng
 các thông tin trên hệ thống luôn chính xác và mới nhất, đồng thời theo dõi các thống kê về lượt
 xem sách để nắm bắt xu hướng và đánh giá hiệu quả của hệ thống. Quản trị viên cũng cần thực
 hiện các thay đổi về thông tin cá nhân của mình khi cần thiết, đảm bảo bảo mật và sự thuận
@@ -15,4 +15,5 @@ truy cập kho sách phong phú một cách hiệu quả.
 1.3 Yêu cầu chức năng
 Quản trị viên:
 • Hệ thống phải cho phép quản trị viên đăng nhập bằng tên người dùng và mật khẩu để truy
-c
+cập các chức năng quản trị.
+• Hệ thống phải cung cấp chức năng cho q

@@ -1,6 +1,4 @@
-nh sách các sách với mỗi sách sẽ có các
-nút "Chỉnh sửa","Thống kê" và "Xóa" để quản trị viên chọn để
-thực hiện thay đổi hoặc theo dõi cần thiết. Hệ thống cũng sẽ có
+ thay đổi hoặc theo dõi cần thiết. Hệ thống cũng sẽ có
 nút "Thêm" ở đầu danh sách
 3. Quản trị viên chọn một nút
 4. Hệ thống cập nhật danh sách để đáp lại những chỉnh
@@ -28,4 +26,7 @@ Quản trị viên yêu cầu thêm sách vào hệ thống
 Triggers Quản trị viên chọn nút "Thêm"
 Normal flow
 1. Quản trị viên chọn nút "Thêm"
-2. Hệ thống sẽ đưa ra biểu mẫu 
+2. Hệ thống sẽ đưa ra biểu mẫu để quản trị viên điền các thông
+tin về sách
+3. Quản trị viên điền những thông tin cần thiết
+4. Quản trị viên tải sách lên hoặc đưa liê

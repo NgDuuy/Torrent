@@ -1,12 +1,4 @@
-ember - Lấy thông tin hồ sơ của thành viên dựa trên ID.
-• Quan hệ:
-– Quản lý cả danh sách thành viên (Member) và danh sách sách (Book).
-Class Book
-• Thuộc tính:
-– id: str - Mã định danh của sách.
-– genre: list<str> - Danh sách thể loại mà sách thuộc về.
-• Phương thức:
-– method1(Type): Type - Một phương thức tùy chỉnh liên quan đến sách.
+- Một phương thức tùy chỉnh liên quan đến sách.
 – method2(Type, Type): Type - Một phương thức tùy chỉnh khác.
 Class Log
 • Thuộc tính:
@@ -31,4 +23,16 @@ TRƯỜNG ĐẠI HỌC BÁCH KHOA - DHQG-HCM
 Hình 9: Đăng nhập
 Hình 10: Sau khi đăng nhập
 Trang 21/32
-T
+TRƯỜNG ĐẠI HỌC BÁCH KHOA - DHQG-HCM
+Hình 11: Thêm sách lên hệ thống
+Hình 12: Giao diện quản lý
+Trang 22/32
+TRƯỜNG ĐẠI HỌC BÁCH KHOA - DHQG-HCM
+3 Kiến trúc hệ thống
+3.1 Kiến trúc MVC
+Hình 13: Sơ đồ MVC
+Trang 23/32
+TRƯỜNG ĐẠI HỌC BÁCH KHOA - DHQG-HCM
+1. Quản trị viên:
+Model (M)
+• User: Quản lý thông tin người dùng, bao 

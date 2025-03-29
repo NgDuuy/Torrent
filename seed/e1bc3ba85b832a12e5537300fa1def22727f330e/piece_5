@@ -1,5 +1,4 @@
-ập các chức năng quản trị.
-• Hệ thống phải cung cấp chức năng cho quản trị viên tạo mới tài khoản người dùng, chỉnh
+uản trị viên tạo mới tài khoản người dùng, chỉnh
 sửa thông tin tài khoản hiện có, và xóa tài khoản khi cần thiết.
 • Hệ thống phải cung cấp chức năng để quản trị viên thêm mới các thể loại sách vào thư
 viện, chỉnh sửa các thể loại đã có, và xóa thể loại khi cần.
@@ -14,4 +13,5 @@ Người dùng:
 và thông tin cá nhân cần thiết.
 • Hệ thống phải cung cấp chức năng đăng nhập cho người dùng đã có tài khoản, cũng như
 cho phép họ đăng xuất sau khi hoàn tất phiên làm việc.
-• Hệ thống phải cho phép người dùng đổ
+• Hệ thống phải cho phép người dùng đổi mật khẩu của họ bất cứ khi nào cần, đảm bảo
+tăng cường tính bảo mật cá nh�

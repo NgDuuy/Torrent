@@ -1,8 +1,4 @@
-ase name Xem thống sách
-Decription Quản trị viên xem thống kê về số lượt đọc đọc của một cuốn sách
-Actors Quản trị viên
-Preconditions Quản trị viên đã đăng nhập
-Quản trị viên yêu cầu xem thống kê của sách trong danh sách
+xem thống kê của sách trong danh sách
 Triggers Quản trị viên chọn nút "Thống kê"
 Normal flow 1. Quản trị viên chọn nút "Thống kê"
 2. Hệ thống sẽ lấy các số liệu của sách từ cơ sở dữ liệu
@@ -22,4 +18,8 @@ Hình 2: Xóa sách
 Mô tả: Diagram này mô tả quá trình quản trị viên xóa sách khỏi hệ thống. Đầu tiên quản
 trị viên sẽ truy cập vào trang quản lý sách rồi sẽ chọn sách muốn xóa rồi khi đã chọn đủ số sách
 muốn xóa thì quản trị viên sẽ chọn xóa sách. Khi đó hệ thống sẽ nhận yêu cầu từ quản trị viên
-và lấy thông tin của câc sách rồi gửi lại t
+và lấy thông tin của câc sách rồi gửi lại thông tin của các sách đó và xác nhận lại với quản trị
+viên. Lúc này nếu quản trị viên xác nhận thì sẽ xóa sách ra khỏi cơ sở dữ liệu còn nếu hủy thì
+sẽ quay về trang quản lý sách.
+Trang 12/32
+TRƯỜNG 

@@ -1,9 +1,4 @@
-ác loại màn hình khác nhau nhờ tính năng responsive của
-Bootstrap, nhằm mang lại trải nghiệm tối ưu trên nhiều nền tảng, đặc biệt là điện thoại
-di động và máy tính bảng.
-• Tính năng Thân thiện với Người dùng: Các yếu tố trực quan như nút bấm, biểu mẫu và
-menu sẽ được thiết kế dễ sử dụng, giúp người dùng mới có thể nhanh chóng làm quen và
-thao tác với hệ thống một cách thuận tiện và thoải mái.
+uận tiện và thoải mái.
 3.4 Data Store Approach
 Để đảm bảo cho mô hình kiến trúc có khả năng lưu trữ và quản lý dữ liệu một cách hợp lý cho
 hệ thống sách của nhóm. Kiến trúc MVC hay cụ thể hơn là phần Model của kiến trúc phải được
@@ -12,4 +7,15 @@ trò là nền móng của việc xây dựng dữ liệu và lưu trữ dữ li
 như tài khoản người dùng, tài khoản admin, thông tin sách và lịch sử đọc truyện,...
 Để hiện thực hóa điều đó, nhóm chúng em sử dụng DBMS là mySQL đóng vai trò là cơ sở
 dữ liệu để lưu trữ các thông tin nói trên. Cách tiếp cận này sẽ đảm bảo tính toàn vẹn và an toàn
-của dữ liệu cũng như giúp cho một khối lư�
+của dữ liệu cũng như giúp cho một khối lượng lớn dữ liệu có thể được cất trữ nhằm phục vụ cho
+hoạt động của hệ thống.
+Trang 27/32
+TRƯỜNG ĐẠI HỌC BÁCH KHOA - DHQG-HCM
+3.5 Kiến trúc cơ sở dữ liệu
+Hình 15: Sơ đồ ERD
+3.5.1 Người dùng (User):
+Lưu trữ thông tin của các thành viên đã đăng nhập vào hệ thống.
+• Thuộc tính:
+– Mã người dùng (user_id): CHAR(10)
+– Tên người dùng (name): CHAR(100)
+• Mối liên kết: Một người dùng có thể đ
