@@ -4,9 +4,21 @@ import json
 import time
 import hashlib
 import os
+import random
 import requests
 from concurrent.futures import ThreadPoolExecutor
-
+from http.server import BaseHTTPRequestHandler, HTTPServer
+class PeerHTTPHandler(BaseHTTPRequestHandler):
+    def do_POST(self):
+        content_length = int(self.headers['Content-Length'])
+        post_data = self.rfile.read(content_length)
+        data = json.loads(post_data)
+        
+        if self.path == '/download':
+            # Xử lý lệnh download
+            self.server.peer._download_file(data['file_hash'], data.get('resume', False))
+            self.send_response(200)
+            self.end_headers()
 class EnhancedPeer:
     def __init__(self, tracker_host="localhost", tracker_port=8000, peer_port=8001):
         self.tracker_host = tracker_host
@@ -19,7 +31,10 @@ class EnhancedPeer:
         self.shared_files = {}
         self.lock = threading.Lock()
         self.executor = ThreadPoolExecutor(max_workers=5)
-        
+        self._load_download_state()  # Tải trạng thái khi khởi động
+        self.http_server = HTTPServer(('0.0.0.0', self.peer_port), PeerHTTPHandler)
+        self.http_server.peer = self
+        threading.Thread(target=self.http_server.serve_forever, daemon=True).start()
         os.makedirs(self.repository, exist_ok=True)
         print(f"Peer ID: {self.peer_id}")
     def start(self):
@@ -76,7 +91,10 @@ class EnhancedPeer:
                 elif cmd[0] == "share" and len(cmd) > 1:
                     self._share_file(cmd[1])
                 elif cmd[0] == "download" and len(cmd) > 1:
-                    self._download_file(cmd[1])
+                    if len(cmd) > 2 and cmd[2] == "--resume":
+                        self._download_file(cmd[1], resume=True)
+                    else:
+                        self._download_file(cmd[1])
                 elif cmd[0] == "list":
                     self._list_shared_files()
                 elif cmd[0] == "status":
@@ -151,64 +169,200 @@ class EnhancedPeer:
         except Exception as e:
             print(f"[-] Share failed: {str(e)}")
             return False
-
-    def _download_file(self, file_hash):
-        """Tải file từ các peer khác"""
-        try:
-            print(f"[+] Getting metadata for file {file_hash[:8]}...")
-            # Lấy metadata trước
-            metadata_response = self._send_to_tracker({
-                "action": "get_metadata",
-                "file_hash": file_hash
-            })
+    def _get_metadata(self, file_hash):
+        """Lấy metadata từ tracker"""
+        resp = self._send_to_tracker({
+            "action": "get_metadata",
+            "file_hash": file_hash
+        })
+        return resp.get("metadata") if resp else None
+    def _get_peers(self, file_hash):
+        """Lấy danh sách peers có sẵn, sắp xếp theo latency"""
+        resp = self._send_to_tracker({
+            "action": "get_peers",
+            "file_hash": file_hash
+        })
+        if not resp or "peers" not in resp:
+            return []
+        
+        # Thêm thông tin giả lập latency (trong thực tế dùng ping)
+        for p in resp["peers"]:
+            p["latency"] = random.uniform(0.1, 0.5)  # Giả lập 100-500ms
             
-            if not metadata_response or "metadata" not in metadata_response:
+        return sorted(resp["peers"], key=lambda x: x["latency"])
+
+    def _get_needed_pieces(self, file_hash, pieces_info):
+        """Xác định các pieces còn thiếu"""
+        existing = {
+            int(f.split('_')[-1])
+            for f in os.listdir(self.repository)
+            if f.startswith(f"{file_hash}_piece_")
+        }
+        return [p["index"] for p in pieces_info if p["index"] not in existing]
+
+    def _parallel_download(self, file_hash, needed_pieces, peers, max_workers=5):
+        """Tải song song với multi-source"""
+        with ThreadPoolExecutor(max_workers=max_workers) as executor:
+            futures = []
+            for piece_idx in needed_pieces:
+                # Chọn peer tối ưu cho mỗi piece
+                peer = self._select_peer_for_piece(piece_idx, peers)
+                if not peer:
+                    continue
+                    
+                futures.append(
+                    executor.submit(
+                        self._download_piece_optimized,
+                        file_hash,
+                        piece_idx,
+                        peer["ip"],
+                        peer["port"]
+                    )
+                )
+            
+            # Theo dõi tiến trình
+            success = True
+            for future in as_completed(futures):
+                if not future.result():
+                    success = False
+                    executor.shutdown(wait=False)
+                    break
+                    
+            return success
+
+    def _select_peer_for_piece(self, piece_idx, peers):
+        """Chọn peer có piece với latency thấp nhất"""
+        candidates = [
+            p for p in peers 
+            if piece_idx in p.get("available_pieces", [])
+        ]
+        return min(candidates, key=lambda x: x["latency"], default=None)
+    def _get_existing_pieces(self, file_hash):
+        """Lấy danh sách các pieces đã tải về"""
+        pieces = set()
+        for f in os.listdir(self.repository):
+            if f.startswith(f"{file_hash}_piece_"):
+                try:
+                    piece_idx = int(f.split('_')[-1])
+                    pieces.add(piece_idx)
+                except ValueError:
+                    continue
+        return pieces
+    def _download_piece_optimized(self, file_hash, piece_idx, peer_ip, peer_port):
+        """Phiên bản tối ưu với timeout và đo tốc độ"""
+        try:
+            start_time = time.time()
+            with socket.create_connection((peer_ip, peer_port), timeout=5) as s:
+                s.settimeout(10)  # Timeout cho mỗi piece
+                s.sendall(f"REQUEST {file_hash} {piece_idx}".encode())
+                
+                # Nhận dữ liệu theo chunk
+                piece_data = b""
+                while True:
+                    chunk = s.recv(16384)  # 16KB/chunk
+                    if not chunk:
+                        break
+                    piece_data += chunk
+
+                if piece_data == b"PIECE_NOT_FOUND":
+                    return False
+                    
+                # Lưu piece
+                piece_path = os.path.join(self.repository, f"{file_hash}_piece_{piece_idx}")
+                with open(piece_path, "wb") as f:
+                    f.write(piece_data)
+                
+                # Log tốc độ
+                duration = max(time.time() - start_time, 0.001)
+                speed = len(piece_data) / duration / 1024  # KB/s
+                print(f"[✓] Piece {piece_idx} from {peer_ip}:{peer_port} | Speed: {speed:.2f} KB/s")
+                
+                # Cập nhật trạng thái
+                with self.lock:
+                    if file_hash not in self.active_downloads:
+                        self.active_downloads[file_hash] = {"downloaded": set()}
+                    self.active_downloads[file_hash]["downloaded"].add(piece_idx)
+                
+                return True
+                
+        except Exception as e:
+            print(f"[×] Piece {piece_idx} error: {str(e)}")
+            return False
+    def _save_download_state(self):
+        """Lưu trạng thái download vào file"""
+        state = {
+            "active_downloads": self.active_downloads,
+            "shared_files": self.shared_files
+        }
+        with open(os.path.join(self.repository, "download_state.json"), "w") as f:
+            json.dump(state, f)
+
+    def _load_download_state(self):
+        """Tải trạng thái download từ file"""
+        state_path = os.path.join(self.repository, "download_state.json")
+        if os.path.exists(state_path):
+            with open(state_path, "r") as f:
+                state = json.load(f)
+                self.active_downloads = state.get("active_downloads", {})
+                self.shared_files = state.get("shared_files", {})
+    def _download_file(self, file_hash, resume=False):
+        """Tải file với khả năng resume"""
+        try:
+            # Lấy metadata
+            metadata = self._get_metadata(file_hash)
+            if not metadata:
                 print("[-] Failed to get file metadata")
                 return False
 
-            metadata = metadata_response["metadata"]
-            # Lưu metadata trước khi download
-            with open(os.path.join(self.repository, f"{file_hash}_metadata.json"), "w") as f:
-                json.dump(metadata, f)
+            # Khởi tạo thông tin download nếu chưa có
+            with self.lock:
+                if file_hash not in self.active_downloads:
+                    self.active_downloads[file_hash] = {
+                        "file_name": metadata["file_name"],
+                        "total_pieces": len(metadata["pieces"]),
+                        "downloaded": set(),
+                        "status": "downloading"
+                    }
 
-            print(f"[+] Getting peers for file {file_hash[:8]}...")
-            peers_response = self._send_to_tracker({
-                "action": "get_peers", 
-                "file_hash": file_hash
-            })
-            
-            if not peers_response or "peers" not in peers_response:
-                print("[-] No peers available for this file")
+            # Nếu resume, lấy các pieces đã có
+            if resume:
+                existing_pieces = self._get_existing_pieces(file_hash)
+                with self.lock:
+                    self.active_downloads[file_hash]["downloaded"].update(existing_pieces)
+                print(f"[+] Resuming download, found {len(existing_pieces)} existing pieces")
+
+            # Lấy danh sách peers
+            peers = self._get_peers(file_hash)
+            if not peers:
+                print("[-] No peers available")
                 return False
 
-            peers = peers_response["peers"]
-            print(f"[+] Found {len(peers)} peers with this file")
-            
-            with self.lock:
-                self.active_downloads[file_hash] = {
-                    "total_pieces": len(metadata["pieces"]),
-                    "downloaded": set()
-                }
+            # Xác định pieces cần tải
+            needed_pieces = [
+                p["index"] for p in metadata["pieces"] 
+                if p["index"] not in self.active_downloads[file_hash]["downloaded"]
+            ]
 
-            # Tải từng mảnh
-            for piece in metadata["pieces"]:
-                piece_idx = piece["index"]
-                for peer in peers:
-                    if piece_idx in peer.get("available_pieces", []):
-                        if self._download_piece(file_hash, piece_idx, peer["ip"], peer["port"]):
-                            break
-                else:
-                    print(f"[-] Failed to download piece {piece_idx}")
-                    return False
+            if not needed_pieces:
+                print("[+] All pieces already downloaded")
+                return self._reconstruct_file(file_hash)
 
-            # Ghép file
-            if self._check_complete(file_hash):
-                self._reconstruct_file(file_hash)
-                print(f"[+] Successfully downloaded file: {metadata['file_name']}")
-                return True
+            print(f"[+] Downloading {len(needed_pieces)} missing pieces from {len(peers)} peers...")
             
-            print("[-] Failed to download all pieces")
+            # Tải song song
+            success = self._parallel_download(
+                file_hash,
+                needed_pieces,
+                peers,
+                max_workers=5
+            )
+
+            # Ghép file nếu thành công
+            if success and self._check_complete(file_hash):
+                return self._reconstruct_file(file_hash)
+            
             return False
+            
         except Exception as e:
             print(f"[-] Download error: {str(e)}")
             return False
@@ -244,7 +398,7 @@ class EnhancedPeer:
             return len(self.active_downloads[file_hash]["downloaded"]) == self.active_downloads[file_hash]["total_pieces"]
 
     def _reconstruct_file(self, file_hash):
-        """Ghép các mảnh thành file hoàn chỉnh"""
+        """Ghép các mảnh thành file hoàn chỉnh với kiểm tra an toàn"""
         metadata_path = os.path.join(self.repository, f"{file_hash}_metadata.json")
         if not os.path.exists(metadata_path):
             print("[-] Metadata not found for reconstruction")
@@ -254,19 +408,49 @@ class EnhancedPeer:
             metadata = json.load(f)
         
         output_path = os.path.join(self.repository, metadata["file_name"])
+        temp_path = output_path + ".temp"
+        
         try:
-            with open(output_path, "wb") as out_file:
+            with open(temp_path, "wb") as out_file:
                 for piece in metadata["pieces"]:
                     piece_path = os.path.join(self.repository, f"{file_hash}_piece_{piece['index']}")
+                    if not os.path.exists(piece_path):
+                        print(f"[-] Missing piece {piece['index']}, cannot reconstruct")
+                        return False
+                    
                     with open(piece_path, "rb") as piece_file:
                         out_file.write(piece_file.read())
             
-            print(f"[+] Reconstructed file saved to: {output_path}")
-            return True
+            # Kiểm tra hash file hoàn chỉnh
+            if self._calculate_file_hash(temp_path) == file_hash:
+                os.replace(temp_path, output_path)
+                print(f"[+] File reconstructed successfully: {output_path}")
+                
+                # Xóa các pieces và metadata đã tải
+                self._cleanup_pieces(file_hash)
+                return True
+            else:
+                print("[-] File integrity check failed")
+                os.remove(temp_path)
+                return False
+                
         except Exception as e:
             print(f"[-] Error reconstructing file: {str(e)}")
+            if os.path.exists(temp_path):
+                os.remove(temp_path)
             return False
-
+    def _cleanup_pieces(self, file_hash):
+        """Dọn dẹp các pieces sau khi ghép file thành công"""
+        for f in os.listdir(self.repository):
+            if f.startswith(f"{file_hash}_piece_") or f == f"{file_hash}_metadata.json":
+                try:
+                    os.remove(os.path.join(self.repository, f))
+                except:
+                    pass
+        with self.lock:
+            if file_hash in self.active_downloads:
+                del self.active_downloads[file_hash]
+            self._save_download_state()
     def _handle_discover(self):
         """Lấy danh sách file từ tracker"""
         response = self._send_to_tracker({"action": "discover"})
@@ -300,9 +484,9 @@ class EnhancedPeer:
     def _graceful_exit(self):
         """Thoát chương trình an toàn"""
         print("\n[+] Shutting down peer...")
+        self._save_download_state()  # Lưu trạng thái trước khi thoát
         self.executor.shutdown()
         print("[+] Peer stopped gracefully")
-
     def _calculate_file_hash(self, file_path):
         """Tính toán hash SHA-256 của file"""
         sha256 = hashlib.sha256()
